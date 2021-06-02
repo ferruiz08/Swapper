@@ -20,6 +20,11 @@ async function main() {
   await greeter.deployed();
 
   console.log("Greeter deployed to:", greeter.address);
+
+  await hre.network.provider.request({
+    method: "hardhat_impersonateAccount",
+    params: ["0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503"]}
+  )
 }
 
 // We recommend this pattern to be able to use async/await everywhere

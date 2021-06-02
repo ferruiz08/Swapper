@@ -13,6 +13,11 @@ contract Swapper{
     using Address for address;
     using SafeMath for uint256;
 
+    /*Events*/
+    event logProvide(address indexed from, uint256 amount);
+    event logSwap(address indexed from);
+    event logWithdraw(address indexed from, uint256 amount);
+
     IERC20 private immutable fromToken;
     IERC20 private immutable toToken;
 
@@ -27,6 +32,32 @@ contract Swapper{
     }
     
     function provide(uint256 amount) external {
+        require(amount > 0, "Amount cannot be empty");
+        require(fromToken.balanceOf(msg.sender) >= amount, "Not enough tokens");
 
+        fromToken.safeTransferFrom(msg.sender,address(this), amount);
+        balanceOf[fromToken][msg.sender] = balanceOf[fromToken][msg.sender].add(amount);
+       
+        emit logProvide(msg.sender, amount);
+
+    }
+
+    function swap() external {
+        require(balanceOf[fromToken][msg.sender] > 0, "Fromtoken cannot be empty");
+        
+        balanceOf[toToken][msg.sender] = balanceOf[fromToken][msg.sender];
+        balanceOf[fromToken][msg.sender] = 0;
+        
+        emit logSwap(msg.sender);
+    }
+
+    function withdraw() external {
+        require(balanceOf[toToken][msg.sender] > 0, "toToken funds cannot be empty");
+        
+        uint256 amount = balanceOf[toToken][msg.sender];
+        toToken.safeTransferFrom(address(this), msg.sender, amount);
+        balanceOf[toToken][msg.sender] = 0;
+
+        emit logWithdraw(msg.sender, amount);
     }
 }

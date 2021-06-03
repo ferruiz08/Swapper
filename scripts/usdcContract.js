@@ -5,15 +5,15 @@
     //const signer = provider.getSigner()
 
     // You can also use an ENS name for the contract address
-    const usdcAddress = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
-
+    const usdcAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
+                        
     // The ERC-20 Contract ABI, which is a common contract interface
     // for tokens (this is the Human-Readable ABI format)
     const usdcAbi = [
         // Some details about the token
         "function name() view returns (string)",
         "function symbol() view returns (string)",
-  
+        "function approve(address, uint amount) view",
         // Get the account balance
         "function balanceOf(address) view returns (uint)",
   

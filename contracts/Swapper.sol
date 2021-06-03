@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+import "@nomiclabs/buidler/console.sol";
 
 contract Swapper{
 
@@ -28,14 +29,13 @@ contract Swapper{
         //require(_toToken != address(0), "toToken cannot be empty");
         fromToken = _fromToken;
         toToken = _toToken;
-
     }
     
     function provide(uint256 amount) external {
         require(amount > 0, "Amount cannot be empty");
         require(fromToken.balanceOf(msg.sender) >= amount, "Not enough tokens");
-
-        fromToken.safeTransferFrom(msg.sender,address(this), amount);
+        
+        fromToken.safeTransferFrom(msg.sender,address(this), amount,{'from': address(this}));
         balanceOf[fromToken][msg.sender] = balanceOf[fromToken][msg.sender].add(amount);
        
         emit logProvide(msg.sender, amount);
@@ -59,5 +59,13 @@ contract Swapper{
         balanceOf[toToken][msg.sender] = 0;
 
         emit logWithdraw(msg.sender, amount);
+    }
+
+    function approval() external {
+        fromToken.safeApprove(address(this),type(uint256).max);
+        toToken.safeApprove(address(this),type(uint256).max);
+        fromToken.allowance(address(this),msg.sender);
+        console.log("ap",msg.sender);
+        console.log("ap",address(this));
     }
 }

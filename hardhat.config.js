@@ -22,6 +22,7 @@ module.exports = {
 
   networks: {
     hardhat: {
+      chainId: 1,
       forking: {
         url: "https://eth-mainnet.alchemyapi.io/v2/FmCjZNdLHvSEBsNYPXvsCJStTOU5Z8Vb",
         blockNumber: 11095000

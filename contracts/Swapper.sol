@@ -27,6 +27,18 @@ contract Swapper{
     }
     
     function provide(uint256 amount) external {
+        //chequeo que el balance de la cuenta del usuario del token que va a depositar sea mayor a amount
+        //transfiero el token del usuario a este contrato
+        //emito el evento del deposito
 
     }
+
+    function swap() external{
+        //Convierto todos los fromToken del usuario a toToken
+        //emito el vento del swapeo
+    }
 }
+
+
+//fromToken.safeTransferFrom(msg.sender, address(this), amount);
+//emit LogDeposit(token, from, to, amount, share);

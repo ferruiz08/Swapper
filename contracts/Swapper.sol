@@ -43,16 +43,27 @@ contract Swapper{
     }
 
     function swap() external {
-        require(balanceOf[fromToken][msg.sender] > 0, "Fromtoken cannot be empty");
-        
+        require(balanceOf[fromToken][msg.sender] > 0, "fromToken cannot be empty");
+        require(toToken.balanceOf(address(this)) >= balanceOf[fromToken][msg.sender], "Not enough toToken balance in the contract");
+
         balanceOf[toToken][msg.sender] = balanceOf[toToken][msg.sender].add(balanceOf[fromToken][msg.sender]);
         balanceOf[fromToken][msg.sender] = 0;
         
         emit logSwap(msg.sender);
     }
 
+    function swapFrom(address _from) external {
+        require(balanceOf[fromToken][_from] > 0, "fromToken cannot be empty");
+        require(toToken.balanceOf(address(this)) >= balanceOf[fromToken][_from], "Not enough toToken balance in the contract");
+
+        balanceOf[toToken][_from] = balanceOf[toToken][_from].add(balanceOf[fromToken][_from]);
+        balanceOf[fromToken][_from] = 0;
+        
+        emit logSwap(_from);
+    }
+
     function withdraw() external {
-        require(balanceOf[toToken][msg.sender] > 0, "toToken funds cannot be empty");
+        require(balanceOf[toToken][msg.sender] > 0, "toToken cannot be empty");
         
         uint256 amount = balanceOf[toToken][msg.sender];
         toToken.safeTransfer(msg.sender, amount);

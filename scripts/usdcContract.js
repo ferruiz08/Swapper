@@ -1,11 +1,4 @@
-    // If you don't specify a //url//, Ethers connects to the default 
-    // (i.e. ``http:/\/localhost:8545``)
-   // const provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.alchemyapi.io/v2/FmCjZNdLHvSEBsNYPXvsCJStTOU5Z8Vb");  
-          
-    //const signer = provider.getSigner()
-
-    // You can also use an ENS name for the contract address
-    const usdcAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
+      const usdcAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
                         
     // The ERC-20 Contract ABI, which is a common contract interface
     // for tokens (this is the Human-Readable ABI format)
@@ -26,8 +19,6 @@
         "event Transfer(address indexed from, address indexed to, uint amount)"
       ];
   
-      // The Contract object
-      //const usdcContract = new ethers.Contract(usdcAddress, usdcAbi, provider);
   
      // exports.usdcContract = usdcContract;
       exports.usdcAbi = usdcAbi;

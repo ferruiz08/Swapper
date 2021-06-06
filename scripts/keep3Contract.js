@@ -5,7 +5,6 @@ const keep3Abi = [
     // Some details about the token
     "function addCredit(address credit, address job, uint amount)",
     "function addJob(address job)",
-    "function addCredit(address credit, address job, uint amount)",
     "function addCreditETH(address job)"
     
   ];

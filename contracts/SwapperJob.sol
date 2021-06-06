@@ -7,13 +7,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import "./Swapper.sol";
+import "../interfaces/IKeep3rV1.sol";
 import "@nomiclabs/buidler/console.sol";
-
-interface IKeep3rV1 {
-    function isKeeper(address) external returns (bool);
-    function worked(address keeper) external;
-    function receipt(address credit, address keeper, uint amount) external;
-}
 
 contract SwapperJob{
 
@@ -50,7 +45,14 @@ contract SwapperJob{
 
     }
 
-    function workable() internal returns (bool){
+    function workV2(address _from) public upkeep {
+        require(workable(),"Time not elapsed");
+        Swapper(swapperContract).swapFromV2(_from);
+        timeLimit = block.timestamp;
+
+    }
+
+    function workable() internal view returns (bool){
         if(block.timestamp - timeLimit >= 60000)
             return true;
         else 

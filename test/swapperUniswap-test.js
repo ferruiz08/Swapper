@@ -33,18 +33,18 @@ describe("Swapper Contract across Uniswap", function(){
    * Change this for diferent from and to Token tests
    * #############################################
    */
- 
-  beforeEach(async function (){
+   
+    beforeEach(async function (){
 
-    await network.provider.request({
-        method: "hardhat_reset",
-        params: [{
-          forking: {
-            jsonRpcUrl: "https://eth-mainnet.alchemyapi.io/v2/FmCjZNdLHvSEBsNYPXvsCJStTOU5Z8Vb",
-            blockNumber: 12570733
-          }
-        }]
-      })
+        await network.provider.request({
+            method: "hardhat_reset",
+            params: [{
+            forking: {
+                jsonRpcUrl: "https://eth-mainnet.alchemyapi.io/v2/FmCjZNdLHvSEBsNYPXvsCJStTOU5Z8Vb",
+                blockNumber: 12570733
+            }
+            }]
+        })
     
     await ethers.provider.send('hardhat_impersonateAccount', [holderAddress]);
     holder = await ethers.provider.getSigner(holderAddress);    
@@ -98,6 +98,7 @@ describe("Swapper Contract across Uniswap", function(){
     });
 
     describe("Swap Functions across Uniswap", function(){
+        
         it("Should swap the fromToken balance to toToken balance accross Uniswap", async function(){
             
             const amount = ethers.utils.parseEther("0.001");
@@ -130,28 +131,28 @@ describe("Swapper Contract across Uniswap", function(){
   
         });
 
-    });
 
-    it("Should withdraw the balance to toToken", async function(){
+        it("Should withdraw the balance to toToken", async function(){
       
-        const amount = ethers.utils.parseEther("0.001");
-        const amountWeth_Dai = 2712296446649462846;
-        const amountDai_Weth = 366482410350;
-        let amountConv;
-        fromToken == weth ? amountConv = amountWeth_Dai : amountConv = amountDai_Weth;
+            const amount = ethers.utils.parseEther("0.001");
+            const amountWeth_Dai = 2712296446649462846;
+            const amountDai_Weth = 366482410350;
+            let amountConv;
+            fromToken == weth ? amountConv = amountWeth_Dai : amountConv = amountDai_Weth;
 
-        await fromTokenContract.approve(swapper.address,amount);
-        await swapper.connect(holder).provide(amount);
-  
-        const balanceIn =  ethers.utils.formatUnits(await toTokenContract.balanceOf(holder.getAddress()), 18);
+            await fromTokenContract.approve(swapper.address,amount);
+            await swapper.connect(holder).provide(amount);
     
-        await swapper.connect(holder).swapV2();
-        await swapper.connect(holder).withdraw();
-  
-        const balanceOut = ethers.utils.formatUnits(await toTokenContract.balanceOf(holder.getAddress()), 18);
+            const balanceIn =  ethers.utils.formatUnits(await toTokenContract.balanceOf(holder.getAddress()), 18);
+        
+            await swapper.connect(holder).swapV2();
+            await swapper.connect(holder).withdraw();
+    
+            const balanceOut = ethers.utils.formatUnits(await toTokenContract.balanceOf(holder.getAddress()), 18);
 
-        expect(balanceIn - ethers.utils.formatUnits(0, 18)).to.equal(balanceOut - amountConv/10**18);
+            expect(balanceIn - ethers.utils.formatUnits(0, 18)).to.equal(balanceOut - amountConv/10**18);
   
       });
 
+    });
 });

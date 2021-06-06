@@ -36,19 +36,22 @@ describe("SwapperJob Contract", function(){
   * #############################################
   */
 
-
-  beforeEach(async function (){
+  before(async function (){
 
     await network.provider.request({
-      method: "hardhat_reset",
-      params: [{
-        forking: {
-          jsonRpcUrl: "https://eth-mainnet.alchemyapi.io/v2/FmCjZNdLHvSEBsNYPXvsCJStTOU5Z8Vb",
-          blockNumber: 12570733
-        }
-      }]
-    })
-    
+        method: "hardhat_reset",
+        params: [{
+          forking: {
+            jsonRpcUrl: "https://eth-mainnet.alchemyapi.io/v2/FmCjZNdLHvSEBsNYPXvsCJStTOU5Z8Vb",
+            blockNumber: 12570733
+          }
+        }]
+      })  
+
+    });
+
+  beforeEach(async function (){
+   
     await ethers.provider.send('hardhat_impersonateAccount', [holderAddress]);
     holder = await ethers.provider.getSigner(holderAddress);    
     await ethers.provider.send('hardhat_impersonateAccount', [keep3GovernanceAddress]);
